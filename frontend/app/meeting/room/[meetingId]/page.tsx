@@ -187,6 +187,7 @@ export default function MeetingRoomPage() {
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStreams, setRemoteStreams] = useState<Record<string, MediaStream>>({});
   const peerConnections = useRef<Record<string, RTCPeerConnection>>({});
+  const queuedCandidates = useRef<Record<string, RTCIceCandidateInit[]>>({});
   const localStreamRef = useRef<MediaStream | null>(null);
   const websocketRef = useRef<WebSocket | null>(null);
   const roomMountedRef = useRef(false);
@@ -740,6 +741,18 @@ export default function MeetingRoomPage() {
                 data: answer,
               })
             );
+
+            // Process any queued ICE candidates for this sender
+            const candidates = queuedCandidates.current[senderStr] || [];
+            console.log(`WebRTC: Draining ${candidates.length} queued ICE candidates for ${senderStr} after setting offer description`);
+            for (const cand of candidates) {
+              try {
+                await pc.addIceCandidate(new RTCIceCandidate(cand));
+              } catch (e) {
+                console.error("Error adding queued ice candidate:", e);
+              }
+            }
+            queuedCandidates.current[senderStr] = [];
           }
 
           else if (type === "answer") {
@@ -747,13 +760,35 @@ export default function MeetingRoomPage() {
             const pc = peerConnections.current[senderStr];
             if (pc) {
               await pc.setRemoteDescription(new RTCSessionDescription(data));
+              
+              // Process any queued ICE candidates for this sender
+              const candidates = queuedCandidates.current[senderStr] || [];
+              console.log(`WebRTC: Draining ${candidates.length} queued ICE candidates for ${senderStr} after setting answer description`);
+              for (const cand of candidates) {
+                try {
+                  await pc.addIceCandidate(new RTCIceCandidate(cand));
+                } catch (e) {
+                  console.error("Error adding queued ice candidate:", e);
+                }
+              }
+              queuedCandidates.current[senderStr] = [];
             }
           }
 
           else if (type === "ice-candidate") {
             const pc = peerConnections.current[senderStr];
-            if (pc) {
-              await pc.addIceCandidate(new RTCIceCandidate(data));
+            if (pc && pc.remoteDescription && pc.remoteDescription.type) {
+              try {
+                await pc.addIceCandidate(new RTCIceCandidate(data));
+              } catch (e) {
+                console.error("Error adding direct ice candidate:", e);
+              }
+            } else {
+              console.log(`WebRTC: Queuing ICE candidate from ${senderStr} (remote description not set yet)`);
+              if (!queuedCandidates.current[senderStr]) {
+                queuedCandidates.current[senderStr] = [];
+              }
+              queuedCandidates.current[senderStr].push(data);
             }
           }
 
