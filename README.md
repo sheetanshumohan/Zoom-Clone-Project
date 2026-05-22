@@ -80,13 +80,6 @@ Manage all meetings with Start, Edit, Delete, and Copy Invitation actions. Tabs 
 
 ---
 
-### 6. Live Meeting Room (WebRTC)
-Full video conferencing room with Gallery/Speaker view toggle, participant tiles, mute/video controls, screen sharing, chat, reactions, and host admin tools.
-
-![Meeting Room](./screenshots/meeting_room.png)
-
----
-
 ## Key Features
 
 ### ✅ Core Features (Required)
