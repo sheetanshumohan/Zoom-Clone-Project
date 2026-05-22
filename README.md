@@ -45,23 +45,45 @@ A two-process full-stack architecture — a **Next.js 14** SPA frontend communic
 
 ## Screenshots
 
-### Dashboard (Home)
-![Dashboard](./screenshots/dashboard.png)
+### 1. Dashboard (Home)
+The main Zoom-style dashboard with quick-action buttons, a live clock, upcoming meetings panel, and sortable recent meetings table.
 
-### Meeting Room (Live Video)
+![Dashboard](./screenshots/01_dashboard.jpg)
+
+---
+
+### 2. Start an Instant Meeting
+Configure camera and PMI preferences, generate a shareable invite link, and launch directly into the meeting room.
+
+![Start Instant Meeting](./screenshots/02_new_meeting.jpg)
+
+---
+
+### 3. Join a Meeting
+Enter a 10-digit Meeting ID or paste an invite link, set your display name, and toggle audio/video before entering.
+
+![Join Meeting](./screenshots/03_join_meeting.jpg)
+
+---
+
+### 4. Schedule a Meeting
+Full scheduling form with title, date/time picker, duration, passcode, waiting room, video preferences, and Google/Outlook calendar export.
+
+![Schedule Meeting](./screenshots/04_schedule_meeting.jpg)
+
+---
+
+### 5. Meetings List — Upcoming & Previous Tabs
+Manage all meetings with Start, Edit, Delete, and Copy Invitation actions. Tabs for Upcoming, Previous, Personal Room, and Templates.
+
+![Meetings List](./screenshots/05_meetings_list.jpg)
+
+---
+
+### 6. Live Meeting Room (WebRTC)
+Full video conferencing room with Gallery/Speaker view toggle, participant tiles, mute/video controls, screen sharing, chat, reactions, and host admin tools.
+
 ![Meeting Room](./screenshots/meeting_room.png)
-
-### Start an Instant Meeting
-> Instantly configure and launch a new video room with camera and PMI options.
-
-### Join a Meeting
-> Enter a 10-digit Meeting ID and display name; the system validates the meeting exists and routes you appropriately.
-
-### Schedule a Meeting
-> Title, date/time picker, duration, passcode, waiting room, and calendar export options.
-
-### Meetings List — Upcoming & Previous Tabs
-> Manage all meetings in one place with Start, Edit, Delete, and Copy Invitation actions.
 
 ---
 
