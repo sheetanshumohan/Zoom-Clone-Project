@@ -681,7 +681,7 @@ export default function MeetingRoomPage() {
             const updatedList = await getParticipants(rawMeetingUuid);
             updateParticipantsList(updatedList, selfP.id);
 
-            const joinedP = updatedList.find(p => p.id === senderStr);
+            const joinedP = updatedList.find(p => p.id.toString() === senderStr);
             // Only initiate offer if the joined/ready participant is approved
             if (joinedP && joinedP.approved && !inWaitingRoomRef.current) {
               console.log(`WebSocket: Participant ${senderStr} is ready. Initiating offer.`);
